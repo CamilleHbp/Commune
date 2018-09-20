@@ -4,6 +4,15 @@
 ---
 
 <h1 id="commmune">Commmune</h1>
+<ul>
+<li><a href="#the-community-management-app">Description and goals</a></li>
+<li><a href="#learning-process">Learning process</a>
+<ul>
+<li><a href="#2018/09/20-938fcfa4d478ac0a3d59ddcf3d1a5f2567e31e59">2018/09/20</a>: <em>ContentProvider</em> with <em>CursorLoader</em>, a <em>RecyclerView</em> and a custom adapter.</li>
+<li><a href="#to-be-continued...">To be continued…</a></li>
+</ul>
+</li>
+</ul>
 <h2 id="the-community-management-app">The community management app</h2>
 <p>My first goal with Commune is to understand how to articulate the different Android components, the <a href="https://matrix.org/">Matrix</a> protocol, and manage event planning as well. We’ll see where it goes from there.</p>
 <p>The ultimate goal is the far future is to create an open-source tool to manage communities of various size. Just one app to communicate with your friends, coworkers, co-citizens, etc.<br>
