@@ -19,7 +19,7 @@
 Send a simple message, create a group chat, plan an event and share some interesting stuff.</p>
 <h2 id="learning-process">Learning process</h2>
 <p>I will try to describe in a chronological order what my project taught me about Android apps’ architecture and development.</p>
-<h3 id="fcfa4d478ac0a3d59ddcf3d1a5f2567e31e59">[2018/09/20] 938fcfa4d478ac0a3d59ddcf3d1a5f2567e31e59</h3>
+<h3 id="commit-938fcfa">[2018/09/20] <a href="https://github.com/CamilleBC/Commune/commit/938fcfa4d478ac0a3d59ddcf3d1a5f2567e31e59">commit 938fcfa</a></h3>
 <p>At this stage, I am discovering the way Android manages data.<br>
 The <a href="https://developer.android.com/training/contacts-provider/retrieve-names">android guide</a> describes a way to link a <em>SimpleCursorLoarder</em> to a <em>ListView</em>.<br>
 I have tried to use a <em>RecyclerView</em> adapter because it is much more versatile than the basic <em>ListView</em>. The <em>RecyclerView</em> doesn’t have an easy way to plug the <em>CursorLoader</em> in. I have used an <a href="https://forums.bignerdranch.com/t/using-a-recyclerview-with-a-loader-cursorloader/8286/3">implementation</a>  found on the web, that I have tried to understand and implement. I have not yet cleaned it, nor did I try to use “proper” Kotlin syntax.<br>
