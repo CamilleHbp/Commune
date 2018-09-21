@@ -1,27 +1,32 @@
 package me.communes.commune
 
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import ContactListAdapter
 import android.Manifest
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.os.Bundle
 import android.provider.ContactsContract
-import android.provider.Telephony.Mms.Addr.CONTACT_ID
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.LoaderManager
 import android.support.v4.content.CursorLoader
 import android.support.v4.content.Loader
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
+import android.view.Menu
 import kotlinx.android.synthetic.main.activity_contact_list.*
 
 private const val LOADER_ID = 0
+private const val SELECTION = "${ContactsContract.Contacts.DISPLAY_NAME_PRIMARY} LIKE ?"
 
 class ContactListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
     private lateinit var contactList: RecyclerView
     private lateinit var contactListAdapter: ContactListAdapter
     private lateinit var contactListManager: RecyclerView.LayoutManager
+    private var searchString: String? = null
+    private var selectionArgs = arrayOf("") // TODO("Fake implementation") // Replace the wildcard by a proper search string")
+    private var sortOrder = ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " COLLATE NOCASE ASC";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,21 +45,49 @@ class ContactListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<C
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         val loaderUri = ContactsContract.Contacts.CONTENT_URI
-        val projection = arrayOf<String?>(ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)
+        val projection = arrayOf<String?>(
+                ContactsContract.Contacts._ID,
+                ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
+                ContactsContract.Contacts.PHOTO_THUMBNAIL_URI
+        )
+        selectionArgs[0] = searchString?:"%"
 
-        return CursorLoader(this, loaderUri, projection, null, null, null)
+
+        return CursorLoader(
+                this,       // Activity context
+                loaderUri,         // Contacts db table
+                projection,        // Columns to return
+                SELECTION,         // Query to select data in table
+                selectionArgs,     // Arguments to the selection query
+                sortOrder     // Sort order
+        )
     }
 
-    override fun onLoadFinished(loader: Loader<Cursor>, c: Cursor) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//        if (contactListAdapter == null) {
-//        } else {
-            contactListAdapter.swapCursor(c)
-//        }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+        var searchItem = menu?.findItem(R.id.item_searchView)
+        var searchView= searchItem?.actionView as SearchView
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchString = "%$query%"
+                selectionArgs = arrayOf(searchString?:"")
+                searchView.clearFocus();
+                supportLoaderManager.restartLoader(LOADER_ID, null, this@ContactListActivity)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchString = "%$newText%"
+                selectionArgs = arrayOf(searchString?:"")
+                supportLoaderManager.restartLoader(LOADER_ID, null, this@ContactListActivity)
+                return false
+            }
+
+        })
+        return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onLoaderReset(loader: Loader<Cursor>) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        contactListAdapter.swapCursor(null)
-    }
+    override fun onLoadFinished(loader: Loader<Cursor>, c: Cursor) = contactListAdapter.swapCursor(c)
+
+    override fun onLoaderReset(loader: Loader<Cursor>) = contactListAdapter.swapCursor(null)
 }

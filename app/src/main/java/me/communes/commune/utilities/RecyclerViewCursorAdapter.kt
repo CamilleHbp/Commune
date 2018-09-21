@@ -23,7 +23,6 @@ abstract class RecyclerViewCursorAdapter<VH : RecyclerView.ViewHolder>(cursor: C
         if (!cursor!!.moveToPosition(position)) {
             throw IllegalStateException("Could not move cursor to position $position when trying to bind viewholder")
         }
-
         onBindViewHolder(holder, cursor!!)
     }
 
