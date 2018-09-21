@@ -6,10 +6,11 @@
 <h1 id="commmune">Commmune</h1>
 <ul>
 <li><a href="#the-community-management-app">Description and goals</a></li>
-<li><a href="#learning-process">Learning process</a>
+<li><a href="#learning-process">Learning process</a></li>
+<li><a href="https://github.com/CamilleBC/Commune#">https://github.com/CamilleBC/Commune#</a>
 <ul>
-<li><a href="#2018/09/20-938fcfa4d478ac0a3d59ddcf3d1a5f2567e31e59">2018/09/20</a>: <em>ContentProvider</em> with <em>CursorLoader</em>, a <em>RecyclerView</em> and a custom adapter.</li>
-<li><a href="#2018/09/21-9f579e68a6b1731a99e8c3fda35960e148fe1579">2018/09/21</a>: <em>SearchView</em>, custom query for the <em>CursorLoader</em>, and photo thumbnail’s URI.</li>
+<li><a href="#20180920-commit-938fcfa">2018/09/20</a>: <em>ContentProvider</em> with <em>CursorLoader</em>, a <em>RecyclerView</em> and a custom adapter.</li>
+<li><a href="#20180921-commit-9f579e6">2018/09/21</a>: <em>SearchView</em>, custom query for the <em>CursorLoader</em>, and photo thumbnail’s URI.</li>
 <li><a href="#to-be-continued...">To be continued…</a></li>
 </ul>
 </li>
