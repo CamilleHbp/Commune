@@ -2,4 +2,5 @@
     <string name="app_label">Commune</string>
     <string name="search_item">Search</string>
     <string name="search_hint">Search contact</string>
+    <string name="main_title">Main Activity Title</string>
 </resources>
