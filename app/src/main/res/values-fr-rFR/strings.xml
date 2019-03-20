@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_label">Commune</string>
-    <string name="search_item">Rechercher</string>
-    <string name="search_hint">Rechercher un contact</string>
-    <string name="main_title">Activité Principale</string>
-</resources>
