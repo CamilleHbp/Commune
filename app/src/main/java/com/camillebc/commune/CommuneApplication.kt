@@ -3,7 +3,7 @@ package com.camillebc.commune
 import android.app.Application
 import com.camillebc.commune.events.di.DaggerEventComponent
 import com.camillebc.commune.events.di.EventComponent
-import com.camillebc.fusy.di.modules.AppModule
+import com.camillebc.commune.di.modules.AppModule
 
 class CommuneApplication: Application() {
     lateinit var eventComponent: EventComponent

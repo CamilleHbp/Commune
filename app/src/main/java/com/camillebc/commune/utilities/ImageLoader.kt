@@ -1,4 +1,4 @@
-package com.camillebc.fusy.utilities
+package com.camillebc.commune.utilities
 
 import android.graphics.BitmapFactory
 import android.os.Build

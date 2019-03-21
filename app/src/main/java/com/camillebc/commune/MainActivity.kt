@@ -9,7 +9,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.camillebc.commune.events.data.EventViewModel
 import com.camillebc.commune.events.fragments.EventEditorFragment
-import com.camillebc.fusy.utilities.addFragment
+import com.camillebc.commune.utilities.addFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import javax.xml.datatype.DatatypeConstants.MONTHS

@@ -1,4 +1,4 @@
-package com.camillebc.fusy.di
+package com.camillebc.commune.di
 
 import com.camillebc.commune.CommuneApplication
 import com.camillebc.commune.events.di.EventComponent

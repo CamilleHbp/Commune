@@ -1,4 +1,4 @@
-package com.camillebc.fusy.di.modules
+package com.camillebc.commune.di.modules
 
 import android.content.Context
 import dagger.Module

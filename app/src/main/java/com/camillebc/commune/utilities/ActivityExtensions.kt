@@ -1,6 +1,7 @@
-package com.camillebc.fusy.utilities
+package com.camillebc.commune.utilities
 
 import androidx.appcompat.app.AppCompatActivity
+import com.camillebc.commune.utilities.inTransaction
 
 fun AppCompatActivity.addFragment(fragment: androidx.fragment.app.Fragment, frameId: Int) {
     supportFragmentManager.inTransaction { add(frameId, fragment) }

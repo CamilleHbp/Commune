@@ -29,6 +29,8 @@ class EventEditorFragment: Fragment() {
             ViewModelProviders.of(it).get(EventViewModel::class.java)
         } ?: throw Exception("EventViewModel: Invalid Activity")
 
+        startDate.text = eventViewModel.startDate.value
+        endDate.text = eventViewModel.endDate.value
         eventViewModel.startDate.observe(this, Observer<String> { dateString ->
             startDate.text = dateString
         })
@@ -56,10 +58,15 @@ class EventEditorFragment: Fragment() {
     }
 
     private fun pickDate(view: View?) {
-        // TODO("Set DatePicker date to the last chosen date")
         var datePickerFragment = when (view) {
-            startDate -> DatePickerFragment.newInstance(EventConstants.StartOrEnd.START)
-            endDate -> DatePickerFragment.newInstance(EventConstants.StartOrEnd.END)
+            startDate -> DatePickerFragment.newInstance(
+                EventConstants.StartOrEnd.START,
+                eventViewModel.startDate.value!!
+            )
+            endDate -> DatePickerFragment.newInstance(
+                EventConstants.StartOrEnd.END,
+                eventViewModel.endDate.value!!
+            )
             else -> throw Exception("DataPickerFragment: Invalid view")
         }
         datePickerFragment.show(activity?.supportFragmentManager!!, "datePicker")

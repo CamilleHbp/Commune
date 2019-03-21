@@ -1,4 +1,4 @@
-package com.camillebc.fusy.utilities
+package com.camillebc.commune.utilities
 
 import android.content.Context
 import android.content.Intent

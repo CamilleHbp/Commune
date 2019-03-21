@@ -8,7 +8,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import com.camillebc.commune.events.EventConstants
 import com.camillebc.commune.events.data.EventViewModel
-import java.text.SimpleDateFormat
+import com.camillebc.commune.utilities.dateString
+import com.camillebc.commune.utilities.dateStringToDate
 import java.util.*
 
 /**
@@ -22,16 +23,18 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
     private var startOrEnd = EventConstants.StartOrEnd.START.value
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        arguments?.let {
-             startOrEnd = it.getInt(EventConstants.ARG_START_END)
-        }
         val cal = Calendar.getInstance()
+        var year = cal.get(Calendar.YEAR)
+        var month = cal.get(Calendar.MONTH)
+        var dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
+        arguments?.let {
+            startOrEnd = it.getInt(EventConstants.ARG_START_END)
+            year = it.getInt(EventConstants.ARG_YEAR)
+            month = it.getInt(EventConstants.ARG_MONTH)
+            dayOfMonth = it.getInt(EventConstants.ARG_DAY_OF_MONTH)
+        }
         // Use the current date as default
-        return DatePickerDialog(activity, this,
-            cal.get(Calendar.YEAR),
-            cal.get(Calendar.MONTH),
-            cal.get(Calendar.DAY_OF_MONTH)
-        )
+        return DatePickerDialog(activity, this, year, month, dayOfMonth)
     }
 
     /**
@@ -51,8 +54,7 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
      *
      */
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        val cal = Calendar.getInstance().also { it.set(year, month, dayOfMonth) }
-        val dateString = SimpleDateFormat("EEE, d MMM yyyy").format(cal.time).capitalize()
+        val dateString = Calendar.getInstance().also { it.set(year, month, dayOfMonth) }.dateString()
         when (startOrEnd) {
             EventConstants.StartOrEnd.START.value -> eventViewModel.startDate.postValue(dateString)
             EventConstants.StartOrEnd.END.value -> eventViewModel.endDate.postValue(dateString)
@@ -64,10 +66,14 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
      */
     companion object {
         @JvmStatic
-        fun newInstance(startOrEnd: EventConstants.StartOrEnd) =
+        fun newInstance(startOrEnd: EventConstants.StartOrEnd, dateString: String) =
             DatePickerFragment().apply {
+                val calendar = Calendar.getInstance().also { it.time = it.dateStringToDate(dateString) }
                 arguments = Bundle().apply {
                     putInt(EventConstants.ARG_START_END, startOrEnd.value)
+                    putInt(EventConstants.ARG_YEAR, calendar.get(Calendar.YEAR))
+                    putInt(EventConstants.ARG_MONTH, calendar.get(Calendar.MONTH))
+                    putInt(EventConstants.ARG_DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH))
                 }
             }
     }
