@@ -74,19 +74,19 @@ class EventEditorFragment: Fragment() {
     }
 
     private fun addEvent(view: View?) {
-        val startMillis: Long = Calendar.getInstance().run {
-            set(2012, 0, 19, 7, 30)
+        val startMillis = Calendar.getInstance().run {
+            time = dateStringToDate(eventViewModel.startDate.value!!)
             timeInMillis
         }
-        val endMillis: Long = Calendar.getInstance().run {
-            set(2012, 0, 19, 8, 30)
+        val endMillis = Calendar.getInstance().run {
+            time = dateStringToDate(eventViewModel.endDate.value!!)
             timeInMillis
         }
         val intent = Intent(Intent.ACTION_INSERT)
             .setData(CalendarContract.Events.CONTENT_URI)
             .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
             .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
-            .putExtra(CalendarContract.Events.TITLE, "Yoga")
+            .putExtra(CalendarContract.Events.TITLE, "Test")
             .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
             .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
             .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
