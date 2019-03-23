@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.camillebc.androidutils.extensions.dateStringToDate
 import com.camillebc.commune.R
 import com.camillebc.commune.events.EventConstants
 import com.camillebc.commune.events.data.EventViewModel

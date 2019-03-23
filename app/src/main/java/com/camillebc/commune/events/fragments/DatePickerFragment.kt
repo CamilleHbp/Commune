@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
+import com.camillebc.androidutils.extensions.dateString
+import com.camillebc.androidutils.extensions.dateStringToDate
 import com.camillebc.commune.events.EventConstants
 import com.camillebc.commune.events.data.EventViewModel
-import com.camillebc.commune.utilities.dateString
-import com.camillebc.commune.utilities.dateStringToDate
 import java.util.*
 
 /**
