@@ -78,6 +78,7 @@ class EventEditorFragment: Fragment() {
             time = dateStringToDate(eventViewModel.startDate.value!!)
             timeInMillis
         }
+
         val endMillis = Calendar.getInstance().run {
             time = dateStringToDate(eventViewModel.endDate.value!!)
             timeInMillis
@@ -86,9 +87,9 @@ class EventEditorFragment: Fragment() {
             .setData(CalendarContract.Events.CONTENT_URI)
             .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
             .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
-            .putExtra(CalendarContract.Events.TITLE, "Test")
+            .putExtra(CalendarContract.Events.TITLE, title.text.toString())
             .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
-            .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, location.text.toString())
             .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
             .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com")
         startActivity(intent)
