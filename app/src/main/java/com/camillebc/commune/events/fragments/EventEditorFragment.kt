@@ -18,8 +18,7 @@ import java.util.*
 
 
 /**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
+ * A simple [Fragment] subclass. This fragment is responsible for everything related to an event.
  *
  */
 class EventEditorFragment: Fragment() {
@@ -30,19 +29,19 @@ class EventEditorFragment: Fragment() {
             ViewModelProviders.of(it).get(EventViewModel::class.java)
         } ?: throw Exception("EventViewModel: Invalid Activity")
 
-        startDate.text = eventViewModel.startDate.value
-        endDate.text = eventViewModel.endDate.value
+        eventStartDate.text = eventViewModel.startDate.value
+        eventEndDate.text = eventViewModel.endDate.value
         eventViewModel.startDate.observe(this, Observer<String> { dateString ->
-            startDate.text = dateString
+            eventStartDate.text = dateString
         })
         eventViewModel.endDate.observe(this, Observer<String> { dateString ->
-            endDate.text = dateString
+            eventEndDate.text = dateString
         })
         // Set all the onClick listeners
-        startDate.setOnClickListener { v ->
+        eventStartDate.setOnClickListener { v ->
             pickDate(v)
         }
-        endDate.setOnClickListener { v ->
+        eventEndDate.setOnClickListener { v ->
             pickDate(v)
         }
         addEvent.setOnClickListener { v ->
@@ -60,11 +59,11 @@ class EventEditorFragment: Fragment() {
 
     private fun pickDate(view: View?) {
         var datePickerFragment = when (view) {
-            startDate -> DatePickerFragment.newInstance(
+            eventStartDate -> DatePickerFragment.newInstance(
                 EventConstants.StartOrEnd.START,
                 eventViewModel.startDate.value!!
             )
-            endDate -> DatePickerFragment.newInstance(
+            eventEndDate -> DatePickerFragment.newInstance(
                 EventConstants.StartOrEnd.END,
                 eventViewModel.endDate.value!!
             )
@@ -87,11 +86,11 @@ class EventEditorFragment: Fragment() {
             .setData(CalendarContract.Events.CONTENT_URI)
             .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
             .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
-            .putExtra(CalendarContract.Events.TITLE, title.text.toString())
-            .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
-            .putExtra(CalendarContract.Events.EVENT_LOCATION, location.text.toString())
+            .putExtra(CalendarContract.Events.TITLE, eventTitle.text.toString())
+            .putExtra(CalendarContract.Events.DESCRIPTION, eventDescription.text.toString())
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, eventLocation.text.toString())
             .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-            .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com")
+            .putExtra(Intent.EXTRA_EMAIL, "")
         startActivity(intent)
     }
 }

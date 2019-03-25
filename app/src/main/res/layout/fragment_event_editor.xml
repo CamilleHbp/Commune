@@ -33,7 +33,7 @@
         />
 
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/eventTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_medium"
@@ -46,64 +46,75 @@
         />
 
     <TextView
-        android:id="@+id/startDate"
+        android:id="@+id/eventStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
         android:layout_marginBottom="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        android:text="Start date"
+        app:layout_constraintTop_toBottomOf="@id/eventTitle"
         android:textSize="@dimen/font_large"
         />
 
     <TextView
-        android:id="@+id/startTime"
+        android:id="@+id/eventStartTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_small"
         android:layout_marginBottom="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_medium"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/eventTitle"
         app:layout_constraintEnd_toEndOf="parent"
         android:ems="4"
-        android:text="Start time"
+        android:hint="Start time"
         android:textSize="@dimen/font_large"
         />
 
     <TextView
-        android:id="@+id/endDate"
+        android:id="@+id/eventEndDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
         android:layout_marginBottom="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_small"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startDate"
-        android:text="End date"
+        app:layout_constraintTop_toBottomOf="@+id/eventStartDate"
         android:textSize="@dimen/font_large"
         />
 
     <TextView
-        android:id="@+id/endTime"
+        android:id="@+id/eventEndTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_small"
         android:layout_marginBottom="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_small"
-        app:layout_constraintTop_toBottomOf="@+id/startDate"
+        app:layout_constraintTop_toBottomOf="@+id/eventStartDate"
         app:layout_constraintEnd_toEndOf="parent"
         android:ems="4"
-        android:text="End time"
+        android:hint="End time"
         android:textSize="@dimen/font_large"
         />
 
     <EditText
-        android:id="@+id/location"
+        android:id="@+id/eventLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_medium"
-        app:layout_constraintTop_toBottomOf="@id/endDate"
+        app:layout_constraintTop_toBottomOf="@id/eventEndDate"
         android:inputType="textPersonName"
         android:hint="Add location"
         />
-
+<EditText
+        android:id="@+id/eventDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_medium"
+        app:layout_constraintTop_toBottomOf="@id/eventLocation"
+        android:inputType="textPersonName"
+        android:hint="Description"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
