@@ -6,10 +6,11 @@ import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.camillebc.androidutils.extensions.dateStringToDate
+import com.camillebc.androidutils.extensions.stringToDate
 import com.camillebc.commune.R
 import com.camillebc.commune.events.EventConstants
 import com.camillebc.commune.events.data.EventViewModel
@@ -29,24 +30,8 @@ class EventEditorFragment: Fragment() {
             ViewModelProviders.of(it).get(EventViewModel::class.java)
         } ?: throw Exception("EventViewModel: Invalid Activity")
 
-        eventStartDate.text = eventViewModel.startDate.value
-        eventEndDate.text = eventViewModel.endDate.value
-        eventViewModel.startDate.observe(this, Observer<String> { dateString ->
-            eventStartDate.text = dateString
-        })
-        eventViewModel.endDate.observe(this, Observer<String> { dateString ->
-            eventEndDate.text = dateString
-        })
-        // Set all the onClick listeners
-        eventStartDate.setOnClickListener { v ->
-            pickDate(v)
-        }
-        eventEndDate.setOnClickListener { v ->
-            pickDate(v)
-        }
-        addEvent.setOnClickListener { v ->
-            addEvent(v)
-        }
+        setObservers()
+        setViews()
         super.onActivityCreated(savedInstanceState)
     }
     override fun onCreateView(
@@ -55,6 +40,33 @@ class EventEditorFragment: Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_event_editor, container, false)
+    }
+
+    private fun addEvent(view: View?) {
+        val startMillis = Calendar.getInstance().run {
+            time = stringToDate(eventViewModel.startDate.value!!, eventViewModel.startTime.value!!)
+            timeInMillis
+        }
+
+        val endMillis = Calendar.getInstance().run {
+            time = stringToDate(eventViewModel.endDate.value!!, eventViewModel.endTime.value!!)
+            timeInMillis
+        }
+        if ( endMillis <= startMillis ) {
+            Toast.makeText(this.context, "The event cannot end BEFORE it starts!\n" +
+                    "Please correct the event's dates.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val intent = Intent(Intent.ACTION_INSERT)
+            .setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
+            .putExtra(CalendarContract.Events.TITLE, eventTitle.text.toString())
+            .putExtra(CalendarContract.Events.DESCRIPTION, eventDescription.text.toString())
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, eventLocation.text.toString())
+            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+            .putExtra(Intent.EXTRA_EMAIL, "")
+        startActivity(intent)
     }
 
     private fun pickDate(view: View?) {
@@ -72,25 +84,63 @@ class EventEditorFragment: Fragment() {
         datePickerFragment.show(activity?.supportFragmentManager!!, "datePicker")
     }
 
-    private fun addEvent(view: View?) {
-        val startMillis = Calendar.getInstance().run {
-            time = dateStringToDate(eventViewModel.startDate.value!!)
-            timeInMillis
+    private fun pickTime(view: View?) {
+        var timePickerFragment = when (view) {
+            eventStartTime -> TimePickerFragment.newInstance(
+                EventConstants.StartOrEnd.START,
+                eventViewModel.startTime.value!!
+            )
+            eventEndTime -> TimePickerFragment.newInstance(
+                EventConstants.StartOrEnd.END,
+                eventViewModel.endTime.value!!
+            )
+            else -> throw Exception("DataPickerFragment: Invalid view")
         }
+        timePickerFragment.show(activity?.supportFragmentManager!!, "timePicker")
+    }
 
-        val endMillis = Calendar.getInstance().run {
-            time = dateStringToDate(eventViewModel.endDate.value!!)
-            timeInMillis
+    /**
+     * Set [EventViewModel] observers.
+     */
+    private fun setObservers() {
+        eventViewModel.startDate.observe(this, Observer<String> { dateString ->
+            eventStartDate.text = dateString
+        })
+        eventViewModel.endDate.observe(this, Observer<String> { dateString ->
+            eventEndDate.text = dateString
+        })
+        eventViewModel.startTime.observe(this, Observer<String> { timeString ->
+            eventStartTime.text = timeString
+        })
+        eventViewModel.endTime.observe(this, Observer<String> { timeString ->
+            eventEndTime.text = timeString
+        })
+    }
+
+    /**
+     * set Views' values and onClick listeners.
+     */
+    private fun setViews() {
+        // Set values
+        eventStartDate.text = eventViewModel.startDate.value
+        eventEndDate.text = eventViewModel.endDate.value
+        eventStartTime.text = eventViewModel.startTime.value
+        eventEndTime.text = eventViewModel.endTime.value
+        // Set listeners
+        eventStartDate.setOnClickListener { v ->
+            pickDate(v)
         }
-        val intent = Intent(Intent.ACTION_INSERT)
-            .setData(CalendarContract.Events.CONTENT_URI)
-            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
-            .putExtra(CalendarContract.Events.TITLE, eventTitle.text.toString())
-            .putExtra(CalendarContract.Events.DESCRIPTION, eventDescription.text.toString())
-            .putExtra(CalendarContract.Events.EVENT_LOCATION, eventLocation.text.toString())
-            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-            .putExtra(Intent.EXTRA_EMAIL, "")
-        startActivity(intent)
+        eventEndDate.setOnClickListener { v ->
+            pickDate(v)
+        }
+        eventStartTime.setOnClickListener { v ->
+            pickTime(v)
+        }
+        eventEndTime.setOnClickListener { v ->
+            pickTime(v)
+        }
+        addEvent.setOnClickListener { v ->
+            addEvent(v)
+        }
     }
 }
