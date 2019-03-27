@@ -57,7 +57,7 @@ class EventEditorFragment: Fragment() {
 
     private fun pickDate(view: View?) {
         // TODO("Set DatePicker date to the last chosen date")
-        var datePickerFragment = when (view) {
+        val datePickerFragment = when (view) {
             startDate -> DatePickerFragment.newInstance(EventConstants.StartOrEnd.START)
             endDate -> DatePickerFragment.newInstance(EventConstants.StartOrEnd.END)
             else -> throw Exception("DataPickerFragment: Invalid view")
