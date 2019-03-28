@@ -1,3 +1,3 @@
 package com.camillebc.commune
 
-internal const val APP_TAG = "Fusy | "
+internal const val APP_TAG = "Commune | "
